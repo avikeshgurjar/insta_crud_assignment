@@ -4,6 +4,10 @@ getPostById,
 updatePost,
   deletePost } = require("../services/post_services")
 
+const parseId = (raw) => {
+  const n = parseInt(raw, 10);
+  return Number.isNaN(n) ? null : n;
+};
 
 
 const post_Creater = async (req, res) => {
@@ -103,11 +107,11 @@ const update_data = async (req, res) => {
   try {
        if (id === null) return res.status(404).json({ error: "id is incorrect " });
       const updated_post = await updatePost(id, data)
-      return res.status(200).json(post)
+      return res.status(200).json(updated_post)
     } catch (err) {
-      if (error.code === "P2025")
+      if (err.code === "P2025")
         return res.status(404).json({ error: "Post not found" });
-    res.status(404).json({ "error": error.message })
+    return res.status(500).json({ "error": err.message })
     
   }
   
@@ -126,7 +130,7 @@ const deletePostController = async (req, res) => {
     } catch (error) {
       if (error.code === "P2025")
         return res.status(404).json({ error: "Post not found" });
-      return error;
+      return res.status(500).json({ error: error.message });
     }
   
 }

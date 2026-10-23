@@ -1,11 +1,15 @@
 const express = require('express');
 const { config } = require('dotenv');
+const router = require('./src/routes/post_routes')
 config();
 
 const app = express();
 
-
 app.use(express.json());
+
+app.use("/posts", router);
+
+
 
 
 
