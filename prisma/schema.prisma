@@ -23,11 +23,12 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model Posts {
+model Post {
   id        Int      @id @default(autoincrement())
-  imageUrl  String
+  imageUrl  String   @unique
   caption   String?
   location  String?
   createdAt DateTime @default(now())
 }
+
 
