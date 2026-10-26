@@ -61,9 +61,28 @@ const user_Creater = async (req, res) => {
 
 const get_Users = async (req,res) => {
   try {
-    const page = Number(req.query.page) ||1
-    const limit = Number(req.query.limit) ||10
-    const users = await getAllUsers(page,limit)
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const sortBy = req.query.sortBy || "createdAt";
+    const order = req.query.order || "desc";
+
+    const allowedSortFields = ["createdAt", "username", "fullname"];
+        const allowedOrders = ["asc", "desc"];
+    
+        if (!allowedSortFields.includes(sortBy) ) {
+          return res.status(400).json({
+            error: "sortBy must from createdAt or username or fullname"
+          });
+        }
+    
+        if (!allowedOrders.includes(order)) {
+          return res.status(400).json({
+            error: "order must be from  asc or desc"
+          });
+        }
+    
+    
+    const users = await getAllUsers(page,limit,sortBy,order)
     return res.status(200).json(users );
     } catch (error) {
       return res.status(404).json({"error":error.message})

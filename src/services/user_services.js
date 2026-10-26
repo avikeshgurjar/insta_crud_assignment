@@ -17,24 +17,16 @@ const create_users = (username,email,fullname,bio,isPrivate) => {
   
 }
 
-const getAllUsers = (page, limit) => {
-  if (page && limit) {
-    return prisma.user.findMany({
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: {
-        createdAt: "desc"
-      }
-    });
-  } else {
-    return prisma.user.findMany({
-      orderBy: {
-        createdAt: "desc"
-      }
-    });
-  }
-  
-  return prisma.user.findMany()
+const getAllUsers = (page = 1, limit = 10, sortBy = "createdAt", order = "desc") => {
+  console.log("Service params:", { page, limit, sortBy, order });
+
+  return prisma.user.findMany({
+    skip: (page - 1) * limit,
+    take: limit,
+    orderBy: {
+      [sortBy]: order
+    }
+  });
 };
 
 
