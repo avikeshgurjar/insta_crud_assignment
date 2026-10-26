@@ -61,7 +61,9 @@ const user_Creater = async (req, res) => {
 
 const get_Users = async (req,res) => {
   try {
-    const users = await getAllUsers()
+    const page = Number(req.query.page) ||1
+    const limit = Number(req.query.limit) ||10
+    const users = await getAllUsers(page,limit)
     return res.status(200).json(users );
     } catch (error) {
       return res.status(404).json({"error":error.message})

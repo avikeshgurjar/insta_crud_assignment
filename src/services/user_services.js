@@ -17,13 +17,27 @@ const create_users = (username,email,fullname,bio,isPrivate) => {
   
 }
 
-const getAllUsers =  () => {
+const getAllUsers = (page, limit) => {
+  if (page && limit) {
+    return prisma.user.findMany({
+      skip: (page - 1) * limit,
+      take: limit,
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+  } else {
+    return prisma.user.findMany({
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+  }
+  
+  return prisma.user.findMany()
+};
 
-  return  prisma.user.findMany();
-  
-  
-  
-}
+
 const getUserById=(id)=> {
   return prisma.user.findUnique({ where: { id } });
 }

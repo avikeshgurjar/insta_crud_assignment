@@ -59,9 +59,14 @@ const post_Creater = async (req, res) => {
   
 }
 
-const get_Posts = async (req,res) => {
+const get_Posts = async (req, res) => {
+  
   try {
-    const posts = await getAllPosts()
+    
+
+
+    
+    
     return res.status(200).json(posts );
     } catch (error) {
       return res.status(404).json({"error":error.message})

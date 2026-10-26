@@ -13,10 +13,10 @@ const create_users = async () => {
     }));
 
     const result = await prisma.user.createMany({
-      data: {formattedUsers},
+      data: formattedUsers,
       skipDuplicates: true
     });
-
+    console.log(result)
     console.log(`Successfully inserted ${result.count} users.`);
   } catch (error) {
     console.error('Database operation failed:', error);
@@ -35,10 +35,10 @@ const create_posts = async () => {
   }));
 
   const result = await prisma.post.createMany({
-    data: {formattedPosts},
+    data: formattedPosts,
     skipDuplicates: true
   });
-
+    console.log(result)
     console.log(`Inserted ${result.count} posts.`);
   } catch (error) {
     console.error('Post insertion failed:', error);
@@ -50,6 +50,8 @@ const create_posts = async () => {
   
   
 }
+create_users()
+create_posts()
   
   
 
